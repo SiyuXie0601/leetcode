@@ -1,0 +1,50 @@
+class Solution {
+    class Pair{
+        int time;
+        String web;
+        Pair(int time, String web){
+            this.time = time;
+            this.web = web;
+        }
+    }
+    public List<String> mostVisitedPattern(String[] username, int[] timestamp, String[] website) {
+        HashMap<String, List<Pair>> map1 = new HashMap<>();
+        for(int i = 0; i < username.length; i++){
+            if(!map1.containsKey(username[i]))
+                map1.put(username[i], new LinkedList<>());
+            map1.get(username[i]).add(new Pair(timestamp[i], website[i]));
+        }
+        HashMap<String, Integer> map2 = new HashMap<>();//sequence -> count
+        int max = 0;
+        String resStr = "";
+        for(Map.Entry<String, List<Pair>> entry : map1.entrySet()){
+            List<Pair> list = entry.getValue();
+            if(list.size() < 3) continue;
+            list.sort((Pair a, Pair b) -> a.time - b.time);
+            Set<String> allSequences = getAllSequences(list);
+            for(String sequence : allSequences){
+                int count = map2.getOrDefault(sequence, 0) + 1;
+                map2.put(sequence, count);
+                if(count > max){max = count; resStr = sequence;}
+                else if(count == max && sequence.compareTo(resStr) < 0){resStr = sequence;}
+            }
+        }
+        String[] arr = resStr.split(",");
+        return new LinkedList<>(Arrays.asList(arr));
+    }
+    private Set<String> getAllSequences(List<Pair> list){
+        HashSet<String> res = new HashSet<>();
+        for(int i = 0; i < list.size() - 2; i++){
+            for(int j = i+1; j < list.size() - 1; j++){
+                for(int k = j+1; k < list.size(); k++){
+                    res.add(list.get(i).web + "," + list.get(j).web  + "," + list.get(k).web );
+                    //System.out.println(list.get(i).web + "," + list.get(j).web  + "," + list.get(k).web );
+                }
+            }
+        }
+        return res;
+    }
+}
+// first group them in hashmap by username
+// then for each user, get all the possible sequence, using string to represent sequence, store sequence and its frequency in map
+// record the maximum while constructing the hashmap

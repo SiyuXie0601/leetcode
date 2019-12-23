@@ -1,0 +1,26 @@
+class Solution {
+    private int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    public int maximumMinimumPath(int[][] A) {
+        int r = A.length, c = A[0].length;
+        PriorityQueue<int[]> qp = new PriorityQueue<int[]>((int[] a, int[] b) -> b[2] - a[2]);
+        qp.offer(new int[]{0, 0, A[0][0]});
+        boolean[][] visited = new boolean[r][c];
+        while(!qp.isEmpty()){
+            int[] cell = qp.poll();
+            int row = cell[0];
+            int col = cell[1];
+            int min = cell[2];
+            if(row == r - 1 && col == c - 1) return min;
+            visited[row][col] = true;
+            for(int i = 0; i < 4; i++){
+                int newRow = row + directions[i][0];
+                int newCol = col + directions[i][1];
+                if(newRow < 0 || newRow >= r || newCol < 0 || newCol >= c || visited[newRow][newCol] == true)
+                    continue;
+                qp.offer(new int[]{newRow, newCol, Math.min(min, A[newRow][newCol])});
+            }
+        }
+        return -1;
+    }
+}
+// use priorityqueue to get the max path and update it until reach end(Dijkstra Algorithm)
