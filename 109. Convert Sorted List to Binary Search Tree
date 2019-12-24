@@ -1,0 +1,25 @@
+class Solution {
+    private ArrayList<Integer> list;
+    public TreeNode sortedListToBST(ListNode head) {
+        list = new ArrayList<>();
+        convertList(head);
+        return helper(0, list.size()-1);
+    }
+    private void convertList(ListNode head){
+        ListNode node = head;
+        while(node != null){
+            list.add(node.val);
+            node = node.next;
+        }
+    }
+    TreeNode helper(int start, int end){
+        if(start > end) return null;
+        int mid = start + (end - start) / 2;
+        TreeNode node = new TreeNode(list.get(mid));
+        node.left = helper(start, mid-1);
+        node.right = helper(mid+1, end);
+        return node;
+    }
+}
+//linkedlist find middle, use two pointers
+//or use array to store
