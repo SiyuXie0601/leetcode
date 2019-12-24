@@ -1,0 +1,38 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        HashMap<Integer, Integer> degree = new HashMap<>();
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++)
+            degree.put(i, 0);
+        for(int i = 0; i < prerequisites.length; i++){
+            if(!map.containsKey(prerequisites[i][1]))
+                map.put(prerequisites[i][1], new LinkedList<>());
+            map.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            degree.put(prerequisites[i][0], degree.getOrDefault(prerequisites[i][0], 0) + 1);
+        }
+        for(Map.Entry<Integer, Integer> entry : degree.entrySet()){
+            if(entry.getValue() == 0) queue.offer(entry.getKey());
+        }
+        int count = 0;
+        while(!queue.isEmpty()){
+            int course = queue.poll();
+            count++;
+            List<Integer> neighbors = map.get(course);
+            if(neighbors == null) continue;
+            for(int neighbor : neighbors){
+                int out = degree.get(neighbor) - 1;
+                if(out == 0) queue.offer(neighbor);
+                degree.put(neighbor, out);
+            }
+        }
+        return count == numCourses;
+    }
+}
+//toplogical sort:
+//1. map from prerequise to course
+//2. map record all courses to its degree
+//3. put all course with degree 0 inside queue
+//4. update neighbor's degree, if neighbor's degree == 0, offer inside queue
+//5. count course with degree 0
+//6. compare count with total

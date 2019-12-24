@@ -1,0 +1,25 @@
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            while(!stack.isEmpty() && nums[stack.peek()] < nums[i]){
+                res[stack.pop()] = nums[i];
+            }
+            stack.push(i);
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(stack.isEmpty()) break;
+            while(!stack.isEmpty() && nums[stack.peek()] < nums[i]){
+                res[stack.pop()] = nums[i];
+            }
+        }
+        while(!stack.isEmpty()){
+            res[stack.pop()] = -1;
+        }
+        return res;
+    }
+}
+// similar to Next Greater Element I, but loop second time, to find result for those who has no result in first loop
+//if stack is empty, break && no need to push into stack anymore
+// update -1 for those still in stack after second loop

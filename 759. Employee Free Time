@@ -1,0 +1,21 @@
+class Solution {
+    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+        PriorityQueue<Interval> pq = new PriorityQueue<Interval>((Interval a, Interval b) -> a.start - b.start);
+        for(List<Interval> person : schedule){
+            for(Interval timeslot : person){
+                pq.offer(timeslot);
+            }
+        }
+        List<Interval> res = new LinkedList<>();
+        int end = pq.poll().end;
+        while(pq.size() != 0){
+            if(pq.peek().start > end)
+                res.add(new Interval(end, pq.peek().start));
+            end = Math.max(end, pq.poll().end);
+        }
+        return res;
+    }
+}
+//add all the timeslot in a pq sorted by start time
+//set end as first timeslot's end time
+//if end < pq's first element's start, find one valid time

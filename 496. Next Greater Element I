@@ -1,0 +1,22 @@
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        Stack<Integer> stack = new Stack<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums2.length; i++){
+            while(!stack.isEmpty() && nums2[stack.peek()] < nums2[i]){
+                map.put(nums2[stack.pop()], nums2[i]);
+            }
+            stack.push(i);
+        }
+        while(!stack.isEmpty()){
+            map.put(nums2[stack.pop()], -1);
+        }
+        int[] res = new int[nums1.length];
+        for(int i = 0; i < nums1.length; i++){
+            res[i] = map.get(nums1[i]);
+        }
+        return res;
+    }
+}
+//if cur element is smaller than stack.peek(), add to stack, else stack.pop()'s next great element is cur element(loop)
+//use cur to update previous element

@@ -1,0 +1,17 @@
+class Solution {
+    private int[][] dp;
+    public int numRollsToTarget(int d, int f, int target) {
+        dp = new int[d+1][target+1];
+        helper(d, f, target);
+        return dp[d][target];
+    }
+    private int helper(int d, int f, int target){
+        if(d <= 0 || target <= 0) return 0;
+        if(dp[d][target] != 0) return dp[d][target];
+        if(d == 1 && target <= f) dp[d][target] = 1;
+        for(int k = 1; k <= f; k++)
+            dp[d][target] = (helper(d-1, f, target - k) + dp[d][target]) % 1000000007;
+        return dp[d][target];
+    }
+}
+//find equations: numRollsToTarget(d, f, target) = numRollsToTarget(d-1, f, target-1) + numRollsToTarget(d-1, f, target-2) + numRollsToTarget(d-1, f, target-3) + ... + numRollsToTarget(d-1, f, target-f)
