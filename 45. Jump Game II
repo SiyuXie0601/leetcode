@@ -1,0 +1,14 @@
+class Solution {
+    public int jump(int[] nums) {
+        int curend = 0, fastest = 0, jump = 0;
+        for(int i = 0; i < nums.length-1; i++){
+            fastest = Math.max(fastest, i + nums[i]);
+            if(i == curend){
+                jump++;
+                curend = fastest;
+            }
+        }
+        return jump;
+    }
+}
+//greedy: like bfs

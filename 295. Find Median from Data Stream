@@ -1,0 +1,25 @@
+class MedianFinder {
+    PriorityQueue<Integer> min;
+    PriorityQueue<Integer> max;
+
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        min = new PriorityQueue<>();
+        max = new PriorityQueue<>((Integer a, Integer b) -> b - a);
+    }
+    
+    public void addNum(int num) {
+        if(max.size() != 0 && num > max.peek()) min.offer(num);
+        else max.offer(num);
+        if(max.size() - min.size() == 2) min.offer(max.poll());
+        if(min.size() - max.size() == 2) max.offer(min.poll());
+    }
+    
+    public double findMedian() {
+        if(max.size() == 0 && min.size() == 0) return 0;
+        if(max.size() > min.size()) return max.peek();
+        if(min.size() > max.size()) return min.peek();
+        return (double)(max.peek() + min.peek())/2;
+    }
+}
+//using two priorityqueue

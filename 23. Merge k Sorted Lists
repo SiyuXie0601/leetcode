@@ -1,0 +1,29 @@
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        return divideConquer(lists);
+    }
+    private ListNode divideConquer(ListNode[] lists){
+        if(lists.length == 0) return null;
+        if(lists.length == 1)
+            return lists[0];
+        if(lists.length == 2)
+            return merge(lists[0], lists[1]);
+        ListNode l1 = divideConquer(Arrays.copyOfRange(lists, 0, lists.length / 2));
+        ListNode l2 = divideConquer(Arrays.copyOfRange(lists, lists.length / 2, lists.length));
+        return merge(l1, l2);
+    }
+    private ListNode merge(ListNode l1, ListNode l2){
+        ListNode h = new ListNode(0);
+        ListNode p = h;
+        while(l1 != null && l2 != null){
+            p.next = l1.val < l2.val ? l1 : l2;
+            if(l1.val < l2.val) l1 = l1.next;
+            else l2 = l2.next;
+            p = p.next;
+        }
+        if(l1 != null) p.next = l1;
+        if(l2 != null) p.next = l2;
+        return h.next;
+    }
+}
+//divideConquer

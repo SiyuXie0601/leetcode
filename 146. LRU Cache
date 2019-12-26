@@ -1,0 +1,70 @@
+class LRUCache {
+    class Node{
+        int value;
+        int key;
+        Node pre;
+        Node next;
+        Node(int key, int val){
+            this.key = key;
+            value = val;
+            pre = null;
+            next = null;
+        }
+    }
+    private HashMap<Integer, Node> map;
+    private Node head, tail;
+    private int capacity;
+    private int count;
+    LRUCache(int cap){
+        map = new HashMap();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.pre = head;
+        capacity = cap;
+        count = 0;
+    }
+    public int get(int key){
+        if(!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        remove(node);
+        addTail(node);
+        return node.value;
+    }
+    public void put(int key, int val){
+        Node node;
+        if(map.containsKey(key)){
+            node = map.get(key);
+            node.value = val;
+            remove(node);
+        }
+        else{
+            if(count == capacity){
+                Node lruNode = head.next;
+                System.out.println(lruNode.key);
+                map.remove(lruNode.key);
+                remove(lruNode);
+            }
+            else{
+                count++;
+            }
+            node = new Node(key,val);
+            map.put(key, node);
+        }
+        addTail(node);
+    }
+    private void remove(Node node){
+        Node preNode = node.pre;
+        Node nextNode = node.next;
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+    }
+    private void addTail(Node node){
+        Node preTail = tail.pre;
+        preTail.next = node;
+        node.pre = preTail;
+        node.next = tail;
+        tail.pre = node;
+    }
+}
+//double linked list

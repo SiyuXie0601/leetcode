@@ -1,0 +1,17 @@
+class Solution {
+    public int trap(int[] height) {
+        if(height.length == 0) return 0;
+        int[] left = new int[height.length];
+        int[] right = new int[height.length];
+        left[0] = 0; right[height.length - 1] = 0;
+        for(int i = 1; i < height.length; i++) left[i] = Math.max(height[i - 1], left[i - 1]);
+        for(int i = height.length - 2; i >= 0; i--) right[i] = Math.max(height[i + 1], right[i + 1]);
+        int count = 0;
+        for(int i = 1; i < height.length - 1; i++){
+            int curMin = Math.min(left[i], right[i]);
+            if(height[i] < curMin) count += curMin - height[i];
+        }
+        return count;
+    }
+}
+//using dp

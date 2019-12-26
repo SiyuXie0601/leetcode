@@ -1,0 +1,32 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> visited = new HashSet<>();
+        LinkedList<String> queue = new LinkedList<>();
+        int distance = 1;
+        queue.offer(beginWord);
+        visited.add(beginWord);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                String word = queue.poll();
+                if(word.equals(endWord)) return distance;
+                for(String next: wordList){
+                    if(!visited.contains(next) && isNeighbor(word, next)){
+                        queue.offer(next);
+                        visited.add(next);
+                    }
+                }
+            }
+            distance++;
+        }
+        return 0;
+    }
+    private boolean isNeighbor(String word, String next){
+        int count = 0;
+        for(int i = 0; i < word.length(); i++){
+            if(word.charAt(i) != next.charAt(i)) count++;
+        }
+        return count == 1;
+    }
+}
+//bfs
