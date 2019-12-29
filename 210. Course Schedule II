@@ -1,0 +1,38 @@
+Course Schedule II
+
+2   0,1
+[[1,0]]
+
+class Solution {
+    
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] res = new int[numCourses];
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        HashMap<Integer, Integer> degree = new HashMap<>();
+        for(int i = 0; i < numCourses; i++)
+          degree.put(i, 0);
+        for(int i = 0; i < prerequisites.length; i++){
+          if(!map.containsKey(prerequisites[i][1]))
+            map.put(prerequisites[i][1], new LinkedList<Integer>());
+          map.get(prerequisites[i][1]).add(prerequisites[i][0]);
+          degree.put(prerequisites[i][0], degree.get(prerequisites[i][0]) + 1);
+        }
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(Map.Entry<Integer, Integer> entry : degree.entrySet()){
+           if(entry.getValue() == 0) queue.add(entry.getKey());
+           
+        }
+        int i = 0;
+        while(!queue.isEmpty()){
+          int course = queue.poll();
+          res[i++] = course;
+          LinkedList<Integer> list = map.get(course);
+          for(Integer child : list){
+            int curD = degree.get(child) - 1;
+            map.put(child, curD);
+            if(curD == 0) queue.add(child);
+          }
+        }
+        return res;
+    }
+}

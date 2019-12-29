@@ -1,0 +1,26 @@
+import java.util.*;
+
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        ArrayList<Integer> rest = new ArrayList<>();
+        LinkedList<Integer> res = new int[nums.length];
+        for(int i = nums.length - 1; i >= 0; i++){
+          res[i] = helper(rest, nums[i]);
+        }
+        
+    }
+    private int helper(ArrayList<Integer> rest, int target){
+        int left = 0, right = rest.size();
+        while(left < right){
+          int mid = left + (right - left) / 2;
+          if(rest.get(mid) >= target) right = mid;
+          else left = mid + 1;
+        }
+        int i = 0;
+        if(rest.size() != 0){
+          while(rest.get(i) < target) i++;
+        }
+        rest.add(i, target);
+        return left == 0 ? 0 : left;
+    }
+}

@@ -1,0 +1,42 @@
+
+
+My Calendar III
+
+class MyCalendarThree {
+    private List<int[]> list;
+
+    public MyCalendarThree() {
+        list = new LinkedList<>();
+    }
+    
+    public int book(int start, int end) {
+        insert(start, 1);
+        insert(end, -1);
+        int max = 0, count = 0;
+        for(int[] timestamp : list){
+          count += timestamp[1];
+          max = Math.max(max, count);
+        }
+        return max;
+    }
+}
+[start, end)
+MyCalendarThree();
+MyCalendarThree.book(10, 20); // returns 1
+MyCalendarThree.book(50, 60); // returns 1
+MyCalendarThree.book(10, 40); // returns 2
+MyCalendarThree.book(5, 15); // returns 3
+MyCalendarThree.book(5, 10); // returns 3
+MyCalendarThree.book(25, 55); // returns 3
+ 
+List<int[]> 
+
+list level = [] 
+(10,20)
+ level = [(10,1), (20, -1)]
+ 
+ (10,20)
+ 10 +1     20 -1       1
+ (15,25)
+ 
+ 10+1   15+1   20-1   25-1     2
