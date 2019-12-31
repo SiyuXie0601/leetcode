@@ -1,0 +1,46 @@
+class Solution {
+    public int subarraysWithKDistinct(int[] A, int K) {
+        return atMost(A, K) - atMost(A, K-1);
+    }
+    private int atMost(int[] A, int K){
+        int left = 0, right = 0, res = 0;
+        HashMap<Integer, Integer> set = new HashMap<>();
+        while(right < A.length){
+            set.put(A[right], set.getOrDefault(A[right], 0) + 1);
+            right++;
+            while(left < right && set.size() > K){
+                //System.out.println(left + " " + right);
+                set.put(A[left], set.get(A[left]) - 1);
+                if(set.get(A[left]) == 0) set.remove(A[left]);
+                left++;
+            }
+            res += right - left;
+        }
+        return res;
+    }
+//     private int atMostK(int[] A, int K) {
+//         int i = 0, j = 0;
+//         int total = 0;
+//         int distinct = 0;   // count of distinct numbers in the window.
+//         Map<Integer, Integer> counter = new HashMap<>();
+//         while (j < A.length) {
+//             if (counter.getOrDefault(A[j], 0) == 0) {
+//                 distinct++;
+//             }
+//             counter.put(A[j], 1 + counter.getOrDefault(A[j], 0));
+//             j++;
+//             while (i < j && distinct > K) {  // shrink the left boundary of window.
+//                 counter.put(A[i], counter.get(A[i]) - 1);
+//                 if (counter.get(A[i]) == 0) {
+//                     distinct--;
+//                 }
+//                 i++;
+//             }
+//             System.out.println(i + " " + j);
+//             total += j - i;  
+//         }
+        
+//         return total;
+//     }
+}
+//in every loop, count number of subarray end at right with at most k distinct character
