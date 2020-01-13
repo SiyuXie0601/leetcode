@@ -1,0 +1,17 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        int p0 = 0, p2 = nums.length-1, cur = 0;
+        while(cur <= p2){
+            if(nums[cur] == 0) swap(nums, p0++, cur++);
+            else if(nums[cur] == 1) cur++;
+            else swap(nums, p2--, cur);
+        }
+    }
+    private void swap(int[] nums, int i, int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
+//when nums[cur] == 0, swap and increase p0 & cur, because cur must larger or equals to p0
+//when nums[cur] == 2, swap and only decrease p2, because you are not sure whether new nums[cur] is <= 1 or not

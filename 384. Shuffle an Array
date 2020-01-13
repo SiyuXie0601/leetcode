@@ -1,0 +1,32 @@
+class Solution {
+    private int[] array;
+    private int[] origin;
+    Random rand = new Random();
+
+    public Solution(int[] nums) {
+        array = nums;
+        origin = nums.clone();
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        array = origin;
+        origin = origin.clone();
+        return array;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle() {
+        for(int i = 0; i < array.length; i++){
+            swap(i, rand.nextInt(array.length - i) + i);
+        }
+        return array;
+    }
+    private void swap(int a, int b){
+        int tmp = array[a];
+        array[a] = array[b];
+        array[b] = tmp;
+    }
+}
+//Random().nextInt
+// solve it within array

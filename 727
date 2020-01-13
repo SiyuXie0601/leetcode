@@ -1,0 +1,25 @@
+S = "abcdebdde", T = "bde"
+
+W = "bcde"
+  
+S  = "bdbde"
+  
+class Solution {
+    public String minWindow(String S, String T) {
+        String res = "";
+        if(T.equals("") || T == null || S == null) return res;
+        for(int l = 0; l < S.length(); l++){
+            if(S.charAt(l) == T.charAt(0)){
+                int p = 1;
+                for(int r = l+1; r < S.length(); r++){
+                  if(p == T.length()){
+                      res = res.length() > r - l + 1 || res.equals("") ? S.substring(l, r+1) : res;
+                      break;
+                    }
+                    if(S.charAt(r) == T.charAt(p)) p++;
+                }
+            }
+        }
+        return res;
+    }
+}
