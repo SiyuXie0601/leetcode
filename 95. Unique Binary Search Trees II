@@ -1,0 +1,32 @@
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        if(n == 0) return new LinkedList<>();
+        return generateTree(1, n);
+    }
+    private List<TreeNode> generateTree(int start, int end){
+        List<TreeNode> res = new LinkedList<>();
+        if(start > end){
+            res.add(null);
+            return res;
+        }
+        if(start == end){
+            TreeNode node = new TreeNode(start);
+            res.add(node);
+            return res;
+        }
+        for(int i = start; i <= end; i++){
+            List<TreeNode> left = generateTree(start, i-1);
+            List<TreeNode> right = generateTree(i+1, end);
+            for(TreeNode leftnode : left){
+                for(TreeNode rightnode : right){
+                    TreeNode node = new TreeNode(i);
+                    node.left = leftnode;
+                    node.right = rightnode;
+                    res.add(node);
+                }
+            }
+        }
+        return res;
+    }
+}
+// return list recursively
