@@ -1,0 +1,27 @@
+class Solution {
+    private int[] arr;
+    public int findCircleNum(int[][] M) {
+        arr = new int[M.length];
+        int count = M.length;
+        for(int i = 0; i < arr.length; i++) arr[i] = i;
+        for(int i = 0; i < M.length; i++){
+            for(int j = 0; j < M[0].length; j++){
+                if(M[i][j] == 1){
+                    int oldparent = find(i);
+                    int newparent = find(j);
+                    if(oldparent != newparent){
+                        count--;
+                        arr[oldparent] = newparent;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+    private int find(int idx){
+        while(arr[idx] != idx){
+            idx = arr[idx];
+        }
+        return idx;
+    }
+}

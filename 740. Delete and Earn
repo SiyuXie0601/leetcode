@@ -1,0 +1,14 @@
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        int[] bucket = new int[10001];
+        for(int num : nums)
+            bucket[num] += num;
+        int[][] dp = new int[bucket.length][2];
+        for(int i = 1; i < bucket.length; i++){
+            dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]);
+            dp[i][1] = dp[i-1][0] + bucket[i];
+        }
+        return Math.max(dp[10000][0], dp[10000][1]);
+    }
+}
+//

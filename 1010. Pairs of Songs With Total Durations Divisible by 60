@@ -1,0 +1,13 @@
+class Solution {
+    public int numPairsDivisibleBy60(int[] time) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for(int val: time){
+            int tmp = val % 60;
+            res = tmp == 0 && map.containsKey(0)? res + map.get(0) : res;
+            res += map.containsKey(60 - tmp) ? map.get(60 - tmp) : 0;
+            map.put(tmp, map.getOrDefault(tmp, 0) + 1);
+        }
+        return res;
+    }
+}
